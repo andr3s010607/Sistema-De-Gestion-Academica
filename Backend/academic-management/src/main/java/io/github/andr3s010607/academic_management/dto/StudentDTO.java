@@ -1,5 +1,6 @@
 package io.github.andr3s010607.academic_management.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,12 +18,12 @@ public class StudentDTO extends UserDTO {
 
 	public StudentDTO(List<Subject> subjects) {
 		super();
-		this.subjects = subjects;
+		this.subjects = subjects != null ? new ArrayList<>(subjects) : new ArrayList<>();
 	}
 
 	public StudentDTO(String name, String userName, String password, UserType userType, List<Subject> subjects) {
 		super(name, userName, password, userType);
-		this.subjects = subjects;
+		this.subjects = subjects != null ? new ArrayList<>(subjects) : new ArrayList<>();
 	}
 
 	public StudentDTO(String name, String userName, String password, UserType userType) {
@@ -43,7 +44,7 @@ public class StudentDTO extends UserDTO {
 	}
 
 	public void setSubjects(List<Subject> subjects) {
-		this.subjects = subjects;
+		this.subjects = subjects != null ? new ArrayList<>(subjects) : new ArrayList<>();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package io.github.andr3s010607.academic_management.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class SubjectDTO {
 		this.subjectCode = subjectCode;
 		this.classRoom = classRoom;
 		this.teacher = teacher;
-		this.students = students;
+		this.students = students != null ? new ArrayList<>(students) : new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -73,7 +74,7 @@ public class SubjectDTO {
 	}
 
 	public void setStudents(List<Student> students) {
-		this.students = students;
+		this.students = students != null ? new ArrayList<>(students) : new ArrayList<>();
 	}
 
 	@Override
