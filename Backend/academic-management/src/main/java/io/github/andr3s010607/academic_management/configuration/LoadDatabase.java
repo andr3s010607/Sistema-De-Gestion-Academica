@@ -60,13 +60,13 @@ public class LoadDatabase {
 	}
 	
 	private boolean existsAnyUserWithName(
-			String userName,
+			String username,
 			AdminRepository adminRepo,
 			StudentRepository studentRepo,
 			TeacherRepository teacherRepo) {
-		return adminRepo.findByUsername(userName).isPresent()
-				||studentRepo.findByUsername(userName).isPresent()
-				||teacherRepo.findByUsername(userName).isPresent();
+		return adminRepo.findByUserName(username).isPresent()
+				||studentRepo.findByUserName(username).isPresent()
+				||teacherRepo.findByUserName(username).isPresent();
 	}
 	
 	

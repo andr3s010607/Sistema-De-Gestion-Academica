@@ -79,7 +79,7 @@ public class AdminService implements CRUDOperation<AdminDTO>{
 	}
 	
 	public int deleteByUsername(String username) {
-		Optional<Admin> found = adminRepo.findByUsername(username);
+		Optional<Admin> found = adminRepo.findByUserName(username);
 		if(found.isPresent()) {
 			adminRepo.delete(found.get());
 			return 0;
@@ -92,7 +92,7 @@ public class AdminService implements CRUDOperation<AdminDTO>{
 	@Override
 	public int UpdateById(Long id, AdminDTO newData) {
 		Optional<Admin>found = adminRepo.findById(id);
-		Optional<Admin> newFound = adminRepo.findByUsername(newData.getUserName());
+		Optional<Admin> newFound = adminRepo.findByUserName(newData.getUserName());
 		
 		if (found.isPresent() && !newFound.isPresent()) {
 			Admin temp = found.get();
@@ -125,7 +125,7 @@ public class AdminService implements CRUDOperation<AdminDTO>{
 	
 	
 	public boolean findUsernameAlreadyTaken(Admin newAdmin) {
-		Optional<Admin> found = adminRepo.findByUsername(newAdmin.getUsername());
+		Optional<Admin> found = adminRepo.findByUserName(newAdmin.getUsername());
 		if(found.isPresent()) {
 			return true;
 		}else {
@@ -134,12 +134,12 @@ public class AdminService implements CRUDOperation<AdminDTO>{
 	}
 	
 	public boolean findUsernameAlreadyTaken(String username) {
-		Optional<Admin> found = adminRepo.findByUsername(username);
+		Optional<Admin> found = adminRepo.findByUserName(username);
 		return found.isPresent();
 	}
 	
 	public int validateCredentials(String username, String password) {
-		Optional<Admin> adminOpt = adminRepo.findByUsername(username);
+		Optional<Admin> adminOpt = adminRepo.findByUserName(username);
 		if (adminOpt.isPresent()) {
 			Admin admin = adminOpt.get();
 			if (passwordEncoder.matches(password, admin.getPassword())) {

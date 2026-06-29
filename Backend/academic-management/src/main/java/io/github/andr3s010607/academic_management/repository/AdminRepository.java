@@ -8,8 +8,8 @@ import io.github.andr3s010607.academic_management.entity.Admin;
 
 public interface AdminRepository extends JpaRepository<Admin, Long>{
 	
-	public Optional<Admin> findByUsername(String username);
+	public Optional<Admin> findByUserName(String userName);
 
-	public void deleteByUsername(String username); 
+	public void deleteByUserName(String userName); 
 	
 }
