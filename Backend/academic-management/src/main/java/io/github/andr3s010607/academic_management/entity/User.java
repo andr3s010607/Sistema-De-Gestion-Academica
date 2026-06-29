@@ -10,6 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import io.github.andr3s010607.academic_management.enums.UserType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 
 @SuppressWarnings("serial")
@@ -19,6 +21,7 @@ public class User implements UserDetails{
 	private String name;
 	private String userName;
 	private String password;
+	@Enumerated(EnumType.STRING)
 	private UserType userType;
 	
 	public User() {
@@ -45,17 +48,17 @@ public class User implements UserDetails{
 
 
 
+	
+
+
+
 	public UserType getUserType() {
 		return userType;
 	}
 
-
-
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
-
-
 
 	public void setPassword(String password) {
 		this.password = password;
