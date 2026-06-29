@@ -78,7 +78,7 @@ public class TeacherService implements CRUDOperation<TeacherDTO>{
 	}
 	
 	public int deleteByUsername(String username) {
-		Optional<Teacher> found = teacherRepo.findByUsername(username);
+		Optional<Teacher> found = teacherRepo.findByUserName(username);
 		if (found.isPresent()) {
 			teacherRepo.delete(found.get());
 			return 0;
@@ -90,7 +90,7 @@ public class TeacherService implements CRUDOperation<TeacherDTO>{
 	@Override
 	public int UpdateById(Long id, TeacherDTO newData) {
 		Optional<Teacher> found = teacherRepo.findById(id);
-		Optional<Teacher> newFound = teacherRepo.findByUsername(newData.getUserName());
+		Optional<Teacher> newFound = teacherRepo.findByUserName(newData.getUserName());
 		
 		if (found.isPresent() && !newFound.isPresent()) {
 			Teacher temp = found.get();
@@ -122,7 +122,7 @@ public class TeacherService implements CRUDOperation<TeacherDTO>{
 	}
 	
 	public boolean finUsernameAlreadyTaken(Teacher newTeacher) {
-		Optional<Teacher> found = teacherRepo.findByUsername(newTeacher.getUsername());
+		Optional<Teacher> found = teacherRepo.findByUserName(newTeacher.getUsername());
 		if(found.isPresent()) {
 			return true;
 		}else {
@@ -131,12 +131,12 @@ public class TeacherService implements CRUDOperation<TeacherDTO>{
 	}
 	
 	public boolean finUsernameAlreadyTaken(String username) {
-	 Optional<Teacher> found = teacherRepo.findByUsername(username);
+	 Optional<Teacher> found = teacherRepo.findByUserName(username);
 	 return found.isPresent();
 	}
 	
 	public int validateCredentials(String username, String password) {
-		Optional<Teacher> teacherOpt = teacherRepo.findByUsername(username);
+		Optional<Teacher> teacherOpt = teacherRepo.findByUserName(username);
 		if(teacherOpt.isPresent()) {
 			Teacher teacher = teacherOpt.get();
 			if (passwordEncoder.matches(password, teacher.getPassword())) {

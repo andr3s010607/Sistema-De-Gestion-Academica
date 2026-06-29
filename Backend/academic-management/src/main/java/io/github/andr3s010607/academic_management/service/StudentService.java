@@ -78,7 +78,7 @@ public class StudentService implements CRUDOperation<StudentDTO>{
 	}
 	
 	public int deleteByUsername(String username) {
-		Optional<Student> found = studentRepo.findByUsername(username);
+		Optional<Student> found = studentRepo.findByUserName(username);
 		if(found.isPresent()) {
 			studentRepo.delete(found.get());
 			return 0;
@@ -90,7 +90,7 @@ public class StudentService implements CRUDOperation<StudentDTO>{
 	@Override
 	public int UpdateById(Long id, StudentDTO newData) {
 		Optional<Student> found = studentRepo.findById(id);
-		Optional<Student> newFound = studentRepo.findByUsername(newData.getUserName());
+		Optional<Student> newFound = studentRepo.findByUserName(newData.getUserName());
 		if (found.isPresent() && !newFound.isPresent()) {
 			Student temp = found.get();
 			temp.setUserName(newData.getUserName());
@@ -122,7 +122,7 @@ public class StudentService implements CRUDOperation<StudentDTO>{
 	}
 	
 	public boolean findUsernameAlreadyTaken(Student newStudent) {
-		Optional<Student> found = studentRepo.findByUsername(newStudent.getUsername());
+		Optional<Student> found = studentRepo.findByUserName(newStudent.getUsername());
 		if(found.isPresent()) {
 			return true;
 		}else {
@@ -131,12 +131,12 @@ public class StudentService implements CRUDOperation<StudentDTO>{
 	}
 	
 	public boolean findUsernameAlreadyTaken(String username) {
-		Optional<Student> found = studentRepo.findByUsername(username);
+		Optional<Student> found = studentRepo.findByUserName(username);
 		return found.isPresent();
 	}
 	
 	public int validateCredentials(String username, String password) {
-		Optional<Student> studentOpt = studentRepo.findByUsername(username);
+		Optional<Student> studentOpt = studentRepo.findByUserName(username);
 		if (studentOpt.isPresent()) {
 			Student student = studentOpt.get();
 			if (passwordEncoder.matches(password, student.getPassword())) {

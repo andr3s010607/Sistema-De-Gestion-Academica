@@ -8,8 +8,8 @@ import io.github.andr3s010607.academic_management.entity.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long>{
 	
-	public Optional<Student> findByUsername(String username);
+	public Optional<Student> findByUserName(String username);
 
-	public void deleteByUsername(String username); 
+	public void deleteByUserName(String username); 
 	
 }
