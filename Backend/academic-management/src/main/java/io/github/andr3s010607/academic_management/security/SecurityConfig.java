@@ -8,10 +8,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,6 +30,28 @@ public class SecurityConfig {
 			JwtAuthenticationFilter jwtAuthFilter, UserDetailsService userDetailsService) {
 		this.jwtAuthFilter = jwtAuthFilter;
 		this.userDetailsService = userDetailsService;
+	}
+	
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            // Rutas públicas de Swagger
+	            .requestMatchers(
+	                "/swagger-ui/**",
+	                "/swagger-ui.html",
+	                "/v3/api-docs/**",
+	                "/swagger-resources/**",
+	                "/webjars/**"
+	            ).permitAll()
+	            // Tus rutas de auth también deben ser públicas
+	            .requestMatchers("/api/auth/**").permitAll()
+	            // El resto requiere autenticación
+	            .anyRequest().authenticated()
+	        );
+
+	    return http.build();
 	}
 	
 	@Bean
