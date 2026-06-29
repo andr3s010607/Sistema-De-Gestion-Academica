@@ -22,6 +22,7 @@ public class StudentService implements CRUDOperation<StudentDTO>{
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	public StudentService() {
