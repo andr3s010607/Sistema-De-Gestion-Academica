@@ -12,9 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.andr3s010607.academic_management.dto.AdminDTO;
+import io.github.andr3s010607.academic_management.dto.StudentDTO;
+import io.github.andr3s010607.academic_management.dto.TeacherDTO;
 import io.github.andr3s010607.academic_management.dto.UserDTO;
 import io.github.andr3s010607.academic_management.entity.User;
+import io.github.andr3s010607.academic_management.enums.UserType;
 import io.github.andr3s010607.academic_management.security.JwtUtil;
+import io.github.andr3s010607.academic_management.service.AdminService;
+import io.github.andr3s010607.academic_management.service.StudentService;
+import io.github.andr3s010607.academic_management.service.TeacherService;
 
 
 @RestController
@@ -23,13 +30,23 @@ public class AuthController {
 	
 	private final AuthenticationManager authenticationManager;
 	private final JwtUtil jwtUtil;
+	private final AdminService adminService;
+	private final TeacherService teacherService;
+	private final StudentService studentService;
 	
-	public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+	
+	
+	
+	public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, AdminService adminService,
+			TeacherService teacherService, StudentService studentService) {
 		super();
 		this.authenticationManager = authenticationManager;
 		this.jwtUtil = jwtUtil;
+		this.adminService = adminService;
+		this.teacherService = teacherService;
+		this.studentService = studentService;
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDTO loginRequest) {
 		try {
@@ -43,8 +60,8 @@ public class AuthController {
 
 			String role = null;
 			if (userDetails instanceof User) {
-				User user = (User) userDetails;
-				role = user.getUserType().name();
+				User usuario = (User) userDetails;
+				role = usuario.getUserType().name();
 			}
 
 			return ResponseEntity.ok(new AuthResponse(jwt, role));
@@ -52,6 +69,47 @@ public class AuthController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 					.body("Nombre o contrasena invalidos o usuario no encontrado");
 		}
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<?> register(@RequestBody UserDTO registerRequest) {
+		
+		if(registerRequest.getUserType().name() == "ADMIN") {
+			AdminDTO newUser = new AdminDTO(registerRequest.getName(), registerRequest.getUserName(), registerRequest.getPassword(), UserType.ADMIN);
+			int result = adminService.create(newUser);
+			if (result == 0) {
+				return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado exitosamente");
+			}
+			if (result == 1) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El nombre no puede estar vacio");
+			}
+		}
+		if(registerRequest.getUserType().name() == "STUDENT") {
+			StudentDTO newUser = new StudentDTO(registerRequest.getName(), registerRequest.getUserName(), registerRequest.getPassword(), UserType.STUDENT);
+			int result = studentService.create(newUser);
+			if (result == 0) {
+				return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado exitosamente");
+			}
+			if (result == 1) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El nombre no puede estar vacio");
+			}
+		}
+		if(registerRequest.getUserType().name() == "TEACHER") {
+			TeacherDTO newUser = new TeacherDTO(registerRequest.getName(), registerRequest.getUserName(), registerRequest.getPassword(), UserType.TEACHER);
+			int result = teacherService.create(newUser);
+			if (result == 0) {
+				return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado exitosamente");
+			}
+			if (result == 1) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El nombre no puede estar vacio");
+			}
+		}
+		
+		
+		return null;
+		
+		
+		
 	}
 	
 	private static class AuthResponse {
