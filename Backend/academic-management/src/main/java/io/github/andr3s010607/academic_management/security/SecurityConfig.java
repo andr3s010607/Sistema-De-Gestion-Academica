@@ -46,7 +46,7 @@ public class SecurityConfig {
 	                "/webjars/**"
 	            ).permitAll()
 	            // Tus rutas de auth también deben ser públicas
-	            .requestMatchers("/api/auth/**").permitAll()
+	            .requestMatchers("/auth/**").permitAll()
 	            // El resto requiere autenticación
 	            .anyRequest().authenticated()
 	        );
