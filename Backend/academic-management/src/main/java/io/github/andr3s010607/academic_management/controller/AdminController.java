@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,7 +53,7 @@ public class AdminController {
 	}
 	
 	
-	@PutMapping("/update_by_id")
+	@PutMapping("/update-by-id")
 	public ResponseEntity<String> updateAdminUser(@RequestParam Long id, @RequestParam String name, @RequestParam String userName, @RequestParam String password){
 		AdminDTO newUser = new AdminDTO(name, userName, password, UserType.ADMIN);
 		int status = adminService.UpdateById(id, newUser);
@@ -71,7 +70,7 @@ public class AdminController {
 		
 	}
 	
-	@DeleteMapping("/delete_by_id")
+	@DeleteMapping("/delete-by-id")
 	public ResponseEntity<String> deleteAdminUser(@RequestParam Long id) {
 		int status = adminService.deleteById(id);
 		switch (status) {
@@ -87,7 +86,7 @@ public class AdminController {
 		
 	}
 	
-	@DeleteMapping("/delete_by_username")
+	@DeleteMapping("/delete-by-username")
 	public ResponseEntity<String> deleteAdminUser(@RequestParam String userName) {
 		int status = adminService.deleteByUsername(userName);
 		switch (status) {

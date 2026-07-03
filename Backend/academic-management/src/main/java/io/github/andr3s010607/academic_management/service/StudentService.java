@@ -93,6 +93,7 @@ public class StudentService implements CRUDOperation<StudentDTO>{
 		Optional<Student> newFound = studentRepo.findByUserName(newData.getUserName());
 		if (found.isPresent() && !newFound.isPresent()) {
 			Student temp = found.get();
+			temp.setName(newData.getName());
 			temp.setUserName(newData.getUserName());
 			temp.setPassword(passwordEncoder.encode(newData.getPassword()));
 			if (newData.getUserType() != null) {

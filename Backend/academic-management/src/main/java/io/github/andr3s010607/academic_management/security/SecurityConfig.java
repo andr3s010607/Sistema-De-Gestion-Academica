@@ -40,12 +40,14 @@ public class SecurityConfig {
 	    http
 	        .csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(auth -> auth
+	        	.requestMatchers("/student-user/showall")
+		        .hasAnyRole("TEACHER", "ADMIN")
+		        .requestMatchers("/admin-user/**", "/student-user/**")
+	            .hasRole("ADMIN")
 	        	.requestMatchers("/auth/**")
                 .permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
-	            .requestMatchers("/admin-user/**")
-	            .hasRole("ADMIN")
 	            .anyRequest().authenticated())
 	            .sessionManagement(
 	                    session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
