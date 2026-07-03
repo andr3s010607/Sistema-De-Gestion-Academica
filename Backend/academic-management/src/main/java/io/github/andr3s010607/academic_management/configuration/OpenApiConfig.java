@@ -50,55 +50,57 @@ public class OpenApiConfig {
             .description(securityDescription);
 
     return new OpenAPI()
-        .components(
-            new Components()
-                .addSecuritySchemes("bearerAuth", securityScheme)
-                .addResponses(
-                    "UnauthorizedError",
-                    new ApiResponse()
-                        .description("Unauthenticated - Invalid or expired JWT token")
-                        .content(
-                            new Content()
-                                .addMediaType(
-                                    "application/json",
-                                    new MediaType()
-                                        .addExamples(
-                                            "error",
-                                            new Example()
-                                                .value(
-                                                    "{\"error\": \"Unauthorized\", \"message\":"
-                                                        + " \"Invalid or expired token\"}")))))
-                .addResponses(
-                    "ForbiddenError",
-                    new ApiResponse()
-                        .description("Forbidden access - You don't have sufficient permissions")
-                        .content(
-                            new Content()
-                                .addMediaType(
-                                    "application/json",
-                                    new MediaType()
-                                        .addExamples(
-                                            "error",
-                                            new Example()
-                                                .value(
-                                                    "{\"error\": \"Forbidden access\", \"message\":"
-                                                        + " \"You don't have permission for this"
-                                                        + " operation\"}")))))
-                .addResponses(
-                    "NotFoundError",
-                    new ApiResponse()
-                        .description("Resource not found")
-                        .content(
-                            new Content()
-                                .addMediaType(
-                                    "application/json",
-                                    new MediaType()
-                                        .addExamples(
-                                            "error",
-                                            new Example()
-                                                .value(
-                                                    "{\"error\": \"Not found\", \"message\":"
-                                                        + " \"The requested resource does not"
-                                                        + " exist\"}"))))));
+    	    .addSecurityItem(
+    	        new io.swagger.v3.oas.models.security.SecurityRequirement().addList("bearerAuth"))
+    	    .components(
+    	        new Components()
+    	            .addSecuritySchemes("bearerAuth", securityScheme)
+    	            .addResponses(
+    	                "UnauthorizedError",
+    	                new ApiResponse()
+    	                    .description("Unauthenticated - Invalid or expired JWT token")
+    	                    .content(
+    	                        new Content()
+    	                            .addMediaType(
+    	                                "application/json",
+    	                                new MediaType()
+    	                                    .addExamples(
+    	                                        "error",
+    	                                        new Example()
+    	                                            .value(
+    	                                                "{\"error\": \"Unauthorized\", \"message\":"
+    	                                                    + " \"Invalid or expired token\"}")))))
+    	            .addResponses(
+    	                "ForbiddenError",
+    	                new ApiResponse()
+    	                    .description("Forbidden access - You don't have sufficient permissions")
+    	                    .content(
+    	                        new Content()
+    	                            .addMediaType(
+    	                                "application/json",
+    	                                new MediaType()
+    	                                    .addExamples(
+    	                                        "error",
+    	                                        new Example()
+    	                                            .value(
+    	                                                "{\"error\": \"Forbidden access\", \"message\":"
+    	                                                    + " \"You don't have permission for this"
+    	                                                    + " operation\"}")))))
+    	            .addResponses(
+    	                "NotFoundError",
+    	                new ApiResponse()
+    	                    .description("Resource not found")
+    	                    .content(
+    	                        new Content()
+    	                            .addMediaType(
+    	                                "application/json",
+    	                                new MediaType()
+    	                                    .addExamples(
+    	                                        "error",
+    	                                        new Example()
+    	                                            .value(
+    	                                                "{\"error\": \"Not found\", \"message\":"
+    	                                                    + " \"The requested resource does not"
+    	                                                    + " exist\"}"))))));
   }
 }
