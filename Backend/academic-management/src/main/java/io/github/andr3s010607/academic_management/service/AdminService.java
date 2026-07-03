@@ -96,6 +96,7 @@ public class AdminService implements CRUDOperation<AdminDTO>{
 		
 		if (found.isPresent() && !newFound.isPresent()) {
 			Admin temp = found.get();
+			temp.setName(newData.getName());
 			temp.setUserName(newData.getUserName());
 			temp.setPassword(passwordEncoder.encode(newData.getPassword()));
 			if (newData.getUserType() != null) {
