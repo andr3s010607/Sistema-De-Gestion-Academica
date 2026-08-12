@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import io.github.andr3s010607.academic_management.dto.SubjectDTO;
 import io.github.andr3s010607.academic_management.dto.TeacherDTO;
+import io.github.andr3s010607.academic_management.entity.Subject;
 import io.github.andr3s010607.academic_management.entity.Teacher;
 import io.github.andr3s010607.academic_management.repository.TeacherRepository;
 
@@ -145,5 +147,13 @@ public class TeacherService implements CRUDOperation<TeacherDTO>{
 		}
 		return 1;
 	}
-
+	
+	public void addTeacherToSubject(Long id, SubjectDTO newSubject) {
+		Optional<Teacher> found = teacherRepo.findById(id);
+		Subject addSubject = modelMapper.map(newSubject, Subject.class);
+		Teacher temp = found.get();
+		temp.getSubjects().add(addSubject);
+	}
+	
+	
 }

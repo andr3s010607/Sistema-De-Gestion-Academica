@@ -8,8 +8,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.github.andr3s010607.academic_management.dto.StudentDTO;
 import io.github.andr3s010607.academic_management.dto.SubjectDTO;
+import io.github.andr3s010607.academic_management.entity.Student;
 import io.github.andr3s010607.academic_management.entity.Subject;
+import io.github.andr3s010607.academic_management.entity.Teacher;
 import io.github.andr3s010607.academic_management.repository.SubjectRepository;
 
 @Service
@@ -164,5 +167,12 @@ public class SubjectService implements CRUDOperation<SubjectDTO>{
 			return false;
 		}
 	}
+	
+	public void addStudentToSubject(Long id, Student newStudent) {
+		Optional<Subject> found = subjectRepo.findById(id);
+		Subject temp = found.get();
+		temp.getStudents().add(newStudent);
+	}
+	
 	
 }
